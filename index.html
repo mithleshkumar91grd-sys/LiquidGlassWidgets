@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid Glass Clock</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #101018, #29243a, #101018);
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.clock {
+  width: 320px;
+  padding: 35px 20px;
+  text-align: center;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+.time {
+  font-size: 58px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.date {
+  margin-top: 15px;
+  font-size: 17px;
+  color: #d5d5e5;
+}
+
+.day {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #aaaac0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="clock">
+  <div class="time" id="time">00:00</div>
+  <div class="date" id="date">Loading...</div>
+  <div class="day" id="day"></div>
+</div>
+
+<script>
+function updateClock() {
+  const now = new Date();
+
+  document.getElementById("time").textContent =
+    now.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    });
+
+  document.getElementById("date").textContent =
+    now.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  document.getElementById("day").textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long"
+    });
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
