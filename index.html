@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liquid Glass Clock</title>
+<title>White Liquid Glass Clock</title>
 
 <style>
 * {
@@ -19,70 +19,90 @@ body {
   justify-content: center;
   align-items: center;
   font-family: Arial, sans-serif;
-  background:
-    radial-gradient(circle at 20% 20%, #343b83, transparent 40%),
-    radial-gradient(circle at 80% 80%, #51266e, transparent 40%),
-    #080b18;
   color: white;
+  background:
+    radial-gradient(circle at 20% 20%, #657080, transparent 45%),
+    radial-gradient(circle at 80% 80%, #343b4b, transparent 45%),
+    linear-gradient(135deg, #111827, #252d3a);
+  overflow: hidden;
 }
 
 .clock {
+  position: relative;
   width: 90%;
   max-width: 380px;
-  padding: 45px 20px;
+  padding: 48px 20px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 35px;
-  background: rgba(255,255,255,.09);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  box-shadow: 0 20px 70px rgba(0,0,0,.4),
-              inset 0 1px 2px rgba(255,255,255,.3);
+  border-radius: 38px;
+  border: 1px solid rgba(255,255,255,.55);
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,.25),
+    rgba(255,255,255,.06)
+  );
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.35),
+    inset 0 2px 3px rgba(255,255,255,.6),
+    inset 0 -2px 5px rgba(255,255,255,.15);
+}
+
+.clock::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  width: 76%;
+  height: 1px;
+  background: rgba(255,255,255,.9);
 }
 
 .heading {
-  font-size: 14px;
-  letter-spacing: 5px;
-  color: #c8caff;
+  font-size: 13px;
+  letter-spacing: 6px;
   margin-bottom: 25px;
+  color: #ffffff;
+  text-shadow: 0 0 15px white;
 }
 
 #time {
   font-size: clamp(42px, 12vw, 65px);
   font-weight: 300;
   letter-spacing: 2px;
-  text-shadow: 0 0 25px #8295ff;
+  text-shadow: 0 0 20px rgba(255,255,255,.65);
 }
 
 #ampm {
-  font-size: 18px;
-  color: #bfc9ff;
+  font-size: 17px;
 }
 
 #line {
   width: 65%;
   height: 1px;
-  background: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.65);
   margin: 25px auto;
 }
 
 #day {
-  font-size: 20px;
+  font-size: 21px;
   margin-bottom: 10px;
 }
 
 #date {
   font-size: 15px;
-  color: #c6c8e9;
+  color: #e4e9ef;
 }
+
 </style>
 </head>
 
 <body>
+
 <div class="clock">
-  <div class="heading">LIQUID GLASS</div>
+  <div class="heading">CRYSTAL WHITE</div>
   <div>
-    <span id="time">00:00:00</span>
+    <span id="time"></span>
     <span id="ampm"></span>
   </div>
   <div id="line"></div>
@@ -95,21 +115,22 @@ function updateClock() {
   const now = new Date();
 
   document.getElementById("time").textContent =
-    now.toLocaleTimeString("en-US", {
+    now.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
       hour12: false
     });
 
-  document.getElementById("ampm").textContent =
-    now.getHours() >= 12 ? " PM" : " AM";
+  document.getElementById("ampm").textContent = "";
 
   document.getElementById("day").textContent =
-    now.toLocaleDateString("en-US", { weekday: "long" });
+    now.toLocaleDateString("en-IN", {
+      weekday: "long"
+    });
 
   document.getElementById("date").textContent =
-    now.toLocaleDateString("en-US", {
+    now.toLocaleDateString("en-IN", {
       day: "numeric",
       month: "long",
       year: "numeric"
@@ -119,128 +140,6 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 </script>
-</body>
-</html>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liquid Glass Clock</title>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  background:
-    radial-gradient(circle at 20% 20%, #343b83, transparent 40%),
-    radial-gradient(circle at 80% 80%, #51266e, transparent 40%),
-    #080b18;
-  color: white;
-}
-
-.clock {
-  width: 90%;
-  max-width: 380px;
-  padding: 45px 20px;
-  text-align: center;
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 35px;
-  background: rgba(255,255,255,.09);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  box-shadow: 0 20px 70px rgba(0,0,0,.4),
-              inset 0 1px 2px rgba(255,255,255,.3);
-}
-
-.heading {
-  font-size: 14px;
-  letter-spacing: 5px;
-  color: #c8caff;
-  margin-bottom: 25px;
-}
-
-#time {
-  font-size: clamp(42px, 12vw, 65px);
-  font-weight: 300;
-  letter-spacing: 2px;
-  text-shadow: 0 0 25px #8295ff;
-}
-
-#ampm {
-  font-size: 18px;
-  color: #bfc9ff;
-}
-
-#line {
-  width: 65%;
-  height: 1px;
-  background: rgba(255,255,255,.3);
-  margin: 25px auto;
-}
-
-#day {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-#date {
-  font-size: 15px;
-  color: #c6c8e9;
-}
-</style>
-</head>
-
-<body>
-<div class="clock">
-  <div class="heading">LIQUID GLASS</div>
-  <div>
-    <span id="time">00:00:00</span>
-    <span id="ampm"></span>
-  </div>
-  <div id="line"></div>
-  <div id="day"></div>
-  <div id="date"></div>
-</div>
-
-<script>
-function updateClock() {
-  const now = new Date();
-
-  document.getElementById("time").textContent =
-    now.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false
-    });
-
-  document.getElementById("ampm").textContent =
-    now.getHours() >= 12 ? " PM" : " AM";
-
-  document.getElementById("day").textContent =
-    now.toLocaleDateString("en-US", { weekday: "long" });
-
-  document.getElementById("date").textContent =
-    now.toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-}
-
-updateClock();
-setInterval(updateClock, 1000);
-</script>
 </body>
 </html>
