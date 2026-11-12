@@ -4,72 +4,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101521">
 <title>FLUX CLOCK</title>
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Arial, sans-serif;
+  overflow: hidden;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont,
+    "SF Pro Display", Arial, sans-serif;
   color: white;
-  background: linear-gradient(135deg,#111827,#303c52);
+
+  background:
+    radial-gradient(ellipse at 20% 15%, #526783 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 85%, #51486b 0%, transparent 45%),
+    linear-gradient(145deg, #111a29, #080b13);
+
   background-size: cover;
   background-position: center;
-  transition: background .3s;
 }
 
 .container {
-  width: 90%;
+  width: 100%;
   max-width: 390px;
-  padding: 40px 20px;
-  text-align: center;
+  padding: 42px 18px;
   border-radius: 38px;
-  border: 1px solid rgba(255,255,255,.4);
-  background: rgba(255,255,255,.13);
-  backdrop-filter: blur(30px) saturate(170%);
-  -webkit-backdrop-filter: blur(30px) saturate(170%);
-  box-shadow: 0 20px 60px #0006,
-              inset 0 1px 2px #ffffff88;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,.25),
+    rgba(255,255,255,.07)
+  );
+
+  border: 1px solid rgba(255,255,255,.45);
+
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.4),
+    inset 0 1px 3px rgba(255,255,255,.7),
+    inset 0 -2px 4px rgba(255,255,255,.15);
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  top: -65px;
+  left: 10%;
+  width: 80%;
+  height: 110px;
+  background: rgba(255,255,255,.4);
+  filter: blur(35px);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .brand {
-  letter-spacing: 7px;
   font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 8px;
   margin-bottom: 35px;
+  text-shadow: 0 0 15px white;
 }
 
-.date { margin-bottom: 15px; opacity: .9; }
+.date {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  color: rgba(255,255,255,.95);
+}
 
 .time {
-  font-size: clamp(55px,15vw,80px);
-  font-weight: 200;
-  letter-spacing: -4px;
+  font-size: clamp(55px, 15vw, 80px);
+  font-weight: 700;
+  letter-spacing: -3px;
+  line-height: 1.1;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 25px rgba(255,255,255,.45);
 }
 
-.seconds { font-size: 19px; opacity: .7; }
+.seconds {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+  opacity: .85;
+}
 
-.day { font-size: 21px; margin-top: 15px; }
+.day {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 16px;
+  text-shadow: 0 0 15px rgba(255,255,255,.3);
+}
 
 .line {
-  height: 1px;
   width: 70%;
+  height: 1px;
   margin: 28px auto;
-  background: #ffffff99;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.9),
+    transparent
+  );
 }
 
 .footer {
   font-size: 10px;
+  font-weight: 600;
   letter-spacing: 4px;
-  opacity: .7;
+  opacity: .8;
 }
 
 .controls {
-  margin-top: 25px;
+  margin-top: 28px;
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -77,47 +140,70 @@ body {
 }
 
 button {
-  border: 1px solid #ffffff66;
+  border: 1px solid rgba(255,255,255,.5);
   border-radius: 30px;
-  padding: 12px 18px;
+  padding: 12px 17px;
   color: white;
-  background: #ffffff20;
+  background: rgba(255,255,255,.17);
+  backdrop-filter: blur(15px);
   font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-input { display: none; }
+button:active {
+  transform: scale(.96);
+}
+
+input {
+  display: none;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
   <div class="brand">FLUX CLOCK</div>
-  <div class="date" id="date"></div>
+
+  <div class="date" id="date">Loading...</div>
+
   <div class="time">
-    <span id="time"></span>
-    <span class="seconds" id="seconds"></span>
+    <span id="time">00:00</span>
+    <span class="seconds" id="seconds">00</span>
   </div>
-  <div class="day" id="day"></div>
+
+  <div class="day" id="day">Monday</div>
+
   <div class="line"></div>
+
   <div class="footer">LIQUID GLASS EDITION</div>
 
   <div class="controls">
     <button onclick="document.getElementById('photo').click()">
       Choose Wallpaper
     </button>
-    <button onclick="resetWallpaper()">Reset
+
+    <button onclick="resetWallpaper()">
+      Reset Wallpaper
     </button>
   </div>
+
   <input type="file" id="photo" accept="image/*">
+
 </div>
 
 <script>
+
 function updateClock() {
+
   const now = new Date();
+
   document.getElementById("time").textContent =
     now.toLocaleTimeString("en-GB", {
-      hour: "2-digit", minute: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false
     });
 
@@ -128,40 +214,58 @@ function updateClock() {
 
   document.getElementById("date").textContent =
     now.toLocaleDateString("en-IN", {
-      day: "numeric", month: "long", year: "numeric"
+      day: "numeric",
+      month: "long",
+      year: "numeric"
     });
 
   document.getElementById("day").textContent =
-    now.toLocaleDateString("en-IN", {weekday: "long"});
+    now.toLocaleDateString("en-IN", {
+      weekday: "long"
+    });
+
 }
 
 updateClock();
-setInterval(updateClock,1000);
+setInterval(updateClock, 1000);
+
 
 const photo = document.getElementById("photo");
 
 photo.addEventListener("change", function() {
+
   const file = this.files[0];
+
   if (!file) return;
 
   if (!file.type.startsWith("image/")) {
-    alert("Please choose an image");
+    alert("Please select an image");
     return;
   }
 
   const reader = new FileReader();
+
   reader.onload = function(e) {
+
     document.body.style.backgroundImage =
-      `linear-gradient(#0004,#0004), url("${e.target.result}")`;
+      `linear-gradient(#0003,#0003), url("${e.target.result}")`;
+
   };
+
   reader.readAsDataURL(file);
+
 });
 
+
 function resetWallpaper() {
+
   document.body.style.backgroundImage =
-    "linear-gradient(135deg,#111827,#303c52)";
+    "radial-gradient(ellipse at 20% 15%, #526783 0%, transparent 45%), radial-gradient(ellipse at 85% 85%, #51486b 0%, transparent 45%), linear-gradient(145deg, #111a29, #080b13)";
+
   photo.value = "";
+
 }
+
 </script>
 
 </body>
