@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>White Liquid Glass Clock</title>
+<meta name="theme-color" content="#101521">
+<title>FLUX CLOCK</title>
 
 <style>
 * {
@@ -18,80 +19,109 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Arial, sans-serif;
-  color: white;
-  background:
-    radial-gradient(circle at 20% 20%, #657080, transparent 45%),
-    radial-gradient(circle at 80% 80%, #343b4b, transparent 45%),
-    linear-gradient(135deg, #111827, #252d3a);
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont,
+    "SF Pro Display", Arial, sans-serif;
+  color: white;
+
+  background:
+    radial-gradient(ellipse at 20% 15%, #526783 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 85%, #51486b 0%, transparent 45%),
+    linear-gradient(145deg, #111a29, #080b13);
 }
 
-.clock {
-  position: relative;
+.container {
   width: 90%;
-  max-width: 380px;
-  padding: 48px 20px;
-  text-align: center;
+  max-width: 390px;
+  padding: 35px 22px;
   border-radius: 38px;
-  border: 1px solid rgba(255,255,255,.55);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
   background: linear-gradient(
-    135deg,
-    rgba(255,255,255,.25),
-    rgba(255,255,255,.06)
+    145deg,
+    rgba(255,255,255,.24),
+    rgba(255,255,255,.07)
   );
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+
+  border: 1px solid rgba(255,255,255,.38);
+
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+
   box-shadow:
-    0 25px 70px rgba(0,0,0,.35),
-    inset 0 2px 3px rgba(255,255,255,.6),
-    inset 0 -2px 5px rgba(255,255,255,.15);
+    0 25px 80px rgba(0,0,0,.4),
+    inset 0 1px 2px rgba(255,255,255,.65),
+    inset 0 -1px 2px rgba(255,255,255,.15);
 }
 
-.clock::before {
+.container::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 12%;
-  width: 76%;
-  height: 1px;
-  background: rgba(255,255,255,.9);
+  width: 80%;
+  height: 100px;
+  top: -65px;
+  left: 10%;
+  background: rgba(255,255,255,.35);
+  filter: blur(35px);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.heading {
-  font-size: 13px;
-  letter-spacing: 6px;
-  margin-bottom: 25px;
-  color: #ffffff;
-  text-shadow: 0 0 15px white;
+.brand {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 7px;
+  opacity: .8;
+  margin-bottom: 35px;
 }
 
-#time {
-  font-size: clamp(42px, 12vw, 65px);
+.date {
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,.85);
+  margin-bottom: 12px;
+}
+
+.time {
+  font-size: clamp(58px, 15vw, 82px);
+  font-weight: 200;
+  letter-spacing: -4px;
+  line-height: 1.1;
+  text-shadow: 0 0 25px rgba(255,255,255,.25);
+  font-variant-numeric: tabular-nums;
+}
+
+.seconds {
+  font-size: 20px;
   font-weight: 300;
-  letter-spacing: 2px;
-  text-shadow: 0 0 20px rgba(255,255,255,.65);
+  opacity: .7;
+  letter-spacing: 0;
 }
 
-#ampm {
-  font-size: 17px;
-}
-
-#line {
-  width: 65%;
-  height: 1px;
-  background: rgba(255,255,255,.65);
-  margin: 25px auto;
-}
-
-#day {
+.day {
   font-size: 21px;
-  margin-bottom: 10px;
+  font-weight: 400;
+  margin-top: 12px;
 }
 
-#date {
-  font-size: 15px;
-  color: #e4e9ef;
+.line {
+  width: 70%;
+  height: 1px;
+  margin: 28px auto;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.8),
+    transparent
+  );
+}
+
+.footer {
+  font-size: 11px;
+  letter-spacing: 4px;
+  opacity: .65;
 }
 
 </style>
@@ -99,15 +129,23 @@ body {
 
 <body>
 
-<div class="clock">
-  <div class="heading">CRYSTAL WHITE</div>
-  <div>
-    <span id="time"></span>
-    <span id="ampm"></span>
+<div class="container">
+
+  <div class="brand">FLUX CLOCK</div>
+
+  <div class="date" id="date">Loading...</div>
+
+  <div class="time">
+    <span id="time">00:00</span>
+    <span class="seconds" id="seconds">00</span>
   </div>
-  <div id="line"></div>
-  <div id="day"></div>
-  <div id="date"></div>
+
+  <div class="day" id="day">Monday</div>
+
+  <div class="line"></div>
+
+  <div class="footer">LIQUID GLASS EDITION</div>
+
 </div>
 
 <script>
@@ -118,15 +156,12 @@ function updateClock() {
     now.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
       hour12: false
     });
 
-  document.getElementById("ampm").textContent = "";
-
-  document.getElementById("day").textContent =
-    now.toLocaleDateString("en-IN", {
-      weekday: "long"
+  document.getElementById("seconds").textContent =
+    now.toLocaleTimeString("en-GB", {
+      second: "2-digit"
     });
 
   document.getElementById("date").textContent =
@@ -134,6 +169,11 @@ function updateClock() {
       day: "numeric",
       month: "long",
       year: "numeric"
+    });
+
+  document.getElementById("day").textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long"
     });
 }
 
